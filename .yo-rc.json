@@ -1,0 +1,16 @@
+{
+  "@sapui5/generator-sapui5-templates": {
+    "promptValues": {
+      "ApplicationTitle": "mobile-service-order-app-frontend",
+      "ApplicationDescription": "",
+      "FLP": false,
+      "ServiceBaseUri": "http://localhost:8082",
+      "DatasourceUrl": "/sap/opu/odata/sap/API_SERVICE_ORDER_SRV",
+      "ObjectCollection": "API_SERVICE_ORDER_SRV",
+      "ObjectCollection_Key": "ID",
+      "Object_Identifier": "ServiceOrderType",
+      "Object_Number": "",
+      "Object_UnitOfMeasure": ""
+    }
+  }
+}

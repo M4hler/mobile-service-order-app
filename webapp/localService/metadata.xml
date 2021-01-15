@@ -1,0 +1,59 @@
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+	<edmx:DataServices xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" m:DataServiceVersion="2.0">
+		<Schema xmlns="http://schemas.microsoft.com/ado/2008/09/edm" Namespace="service.execution">
+			<EntityType Name="WindmillType">
+				<Key>
+					<PropertyRef Name="Id"/>
+				</Key>
+				<Property Name="Id" Type="Edm.Int64" Nullable="false"></Property>
+				<Property Name="Type" Type="Edm.String" Nullable="false" 
+					sap:creatable="true" sap:updatable="false" />
+				<Property Name="Longitude" sap:lower-boundary="-90" sap:upper-boundary="90" Type="Edm.Decimal" Nullable="false"></Property>
+				<Property Name="Latitude" sap:lower-boundary="-90" sap:upper-boundary="90" Type="Edm.Decimal" Nullable="false"></Property>
+				<Property Name="BladeDiameter" sap:lower-boundary="5" sap:upper-boundary="15"  Type="Edm.Decimal" Nullable="false" Precision="31" Scale="14" 
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+				<Property Name="HubHeight" sap:lower-boundary="5" sap:upper-boundary="75" Type="Edm.Decimal" Nullable="false" Precision="31" Scale="14" sap:unicode="false" 
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+				<Property Name="RotorDiameter" Type="Edm.Decimal" Nullable="false" Precision="31" Scale="14" sap:unicode="false" 
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+				<Property Name="MaxRPM" Type="Edm.Decimal" Nullable="false" Precision="31" Scale="14" sap:unicode="false"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+				<Property Name="MaximumPowerOutput" Type="Edm.Decimal" Nullable="false" Precision="31" Scale="14" sap:unicode="false"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+			</EntityType>
+			<EntityType Name="ServiceOrderType">
+				<Key>
+					<PropertyRef Name="Id"/>
+				</Key>
+				<Property Name="Id" Type="Edm.Int64" Nullable="false"></Property>
+				<Property Name="OrderDescription" Type="Edm.String" Nullable="false"></Property>
+				<Property Name="ServiceStart" Type="Edm.DateTime" Nullable="false"></Property>
+				<Property Name="ServiceFinish" Type="Edm.DateTime" Nullable="false"></Property>
+				<NavigationProperty Name="ServicedWindmill" Relationship="service.execution.ServiceOrderWindmillAssociation" ToRole="windmill" FromRole="order"></NavigationProperty>
+			</EntityType>
+			<EntityType Name="ServiceOperation">
+				<Key>
+					<PropertyRef Name="OrderId"/>
+					<PropertyRef Name="OperationNumber"/>
+				</Key>
+				<Property Name="OrderId" Type="Edm.Int64" Nullable="false" ></Property>
+				<Property Name="OperationNumber" Type="Edm.Int32" Nullable="false"></Property>
+				<Property Name="OperationText" Type="Edm.String" Nullable="false"></Property>
+				<Property Name="PlannedWork" Type="Edm.Int32" Nullable="false"></Property>
+				<Property Name="WorkUnitUoM" Type="Edm.String" Nullable="false"></Property>
+			</EntityType>
+			<Association Name="ServiceOrderWindmillAssociation">
+				<End Type="service.execution.ServiceOrderType" Role="order" Multiplicity="1"></End>
+				<End Type="service.execution.WindmillType" Role="windmill" Multiplicity="1"></End>
+			</Association>
+			<EntityContainer Name="ServiceOrderMobileExecutionContainer" m:IsDefaultEntityContainer="true">
+				<EntitySet Name="ServiceOrders" EntityType="service.execution.ServiceOrderType"></EntitySet>
+				<EntitySet Name="Windmills" EntityType="service.execution.WindmillType"></EntitySet>
+				<AssociationSet Name="ServiceOrderWindmillAssociations" Association="service.execution.ServiceOrderWindmillAssociation">
+					<End Role="order" EntitySet="ServiceOrders"></End>
+					<End Role="windmill"  EntitySet="Windmills"></End>
+				</AssociationSet>
+			</EntityContainer>
+		</Schema>
+	</edmx:DataServices>
+</edmx:Edmx>
